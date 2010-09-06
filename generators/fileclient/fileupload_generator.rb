@@ -1,4 +1,4 @@
-class FileclientGenerator < Rails::Generator::NamedBase
+class FileuploadGenerator < Rails::Generator::NamedBase
   attr_accessor :attachments, :migration_name
 
   def initialize(args, options = {})
@@ -10,7 +10,7 @@ class FileclientGenerator < Rails::Generator::NamedBase
     file_name = generate_file_name
     @migration_name = file_name.camelize
     record do |m|
-      m.migration_template "fileclient_migration.rb.erb",
+      m.migration_template "fileupload_migration.rb.erb",
                            File.join('db', 'migrate'),
                            :migration_file_name => file_name
     end

@@ -1,7 +1,7 @@
 module Fileclient
   class Client  
     def initialize()
-       config = File.open(File.join(RAILS_ROOT,"config","fileserver.yml")) { |f| YAML::load(f) }
+       config = File.open(File.join(RAILS_ROOT,"config","fileupload.yml")) { |f| YAML::load(f) }
        @private_key = config[ENV['RAILS_ENV']]['private_key']
        @server_address = config[ENV['RAILS_ENV']]['server_address']
     end

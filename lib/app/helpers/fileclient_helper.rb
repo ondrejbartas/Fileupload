@@ -11,12 +11,14 @@ module FileclientHelper
         out << t(:delete)
         out << check_box_tag("#{form.object.class.name.downcase}[#{name}_delete]", true)
         data_file = form.object.get_files_for(name)
-        if data_file.width > data_file.height
-          aspect = data_file.width.to_f/100.0
-        else
-          aspect = data_file.height.to_f/100.0
+        if data_file.is_image?
+          if data_file.width > data_file.height
+            aspect = data_file.width.to_f/100.0
+          else
+            aspect = data_file.height.to_f/100.0
+          end
+          out << image_tag(data_file.get_url, :width=>data_file.width.to_f/aspect, :height=>data_file.height.to_f/aspect)
         end
-        out << image_tag(data_file.get_url, :width=>data_file.width.to_f/aspect, :height=>data_file.height.to_f/aspect)
   			out << "<br />"
       end
     else
@@ -34,12 +36,14 @@ module FileclientHelper
       			out << t(:delete)
             out << check_box_tag("#{form.object.class.name.downcase}[#{name}_delete][#{data_file.get_filename_current}]", true)
             out << data_file.get_filename_current+":"
-            if data_file.width > data_file.height
-              aspect = data_file.width.to_f/100.0
-            else
-              aspect = data_file.height.to_f/100.0
+            if data_file.is_image?
+              if data_file.width > data_file.height
+                aspect = data_file.width.to_f/100.0
+              else
+                aspect = data_file.height.to_f/100.0
+              end
+              out << image_tag(data_file.get_url, :width=>data_file.width.to_f/aspect, :height=>data_file.height.to_f/aspect)
             end
-            out << image_tag(data_file.get_url, :width=>data_file.width.to_f/aspect, :height=>data_file.height.to_f/aspect)
       			out << "</li>"
           end
         out << "</ul>"

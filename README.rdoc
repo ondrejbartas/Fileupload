@@ -1,0 +1,48 @@
+=Fileupload
+
+==Quick Start
+Go to and register
+http://fileserver.bartas.cz
+
+In /your_app/config/fileserver.yml  change those lines:
+server_address: http://127.0.0.1:3000
+   private_key: 5d2ca726552ccc417dda8ce7d451a901276ec770
+   public_key: 5e710b02c67b51a
+
+In your model:
+
+  class User < ActiveRecord::Base
+  	has_uploaded_file :avatar, { :type=> "images",
+                                :templates => { 
+                                      :small => { :size => "100x100", :resize_mode => "fill" },
+                                      :big => { :size => "250x250" }
+                                   }
+                              }
+  end
+
+In your migrations:
+
+  class AddAvatarColumnsToUser < ActiveRecord::Migration
+    def self.up
+      add_column :users, :avatar_upload,    :text
+    end
+
+    def self.down
+      remove_column :users, :avatar_upload
+    end
+  end
+
+In your edit and new views:
+
+  <% form_for :user, @user, :url => user_path, :html => { :multipart => true } do |form| %>
+	<%= fileuploads_input form, :avatar %>
+  <% end %>
+
+
+In your show view:
+
+  <%= image_tag @user.avatar.get_url %>
+  <%= image_tag @user.avatar.thumb_url("small") %>
+  <%= image_tag @user.avatar.thumb_url("big") %>
+
+

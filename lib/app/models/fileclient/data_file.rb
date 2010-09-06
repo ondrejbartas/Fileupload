@@ -55,6 +55,9 @@ module Fileclient
       end
       
     end    
+    def is_image?
+      @type == "images"
+    end
 
     def height
       @height.to_i

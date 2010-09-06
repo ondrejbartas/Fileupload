@@ -1,5 +1,5 @@
 Usage:
 
-  script/generate fileclient Class attachment (attachment2 ...)
+  script/generate fileupload Class attachment (attachment2 ...)
 
 This will create a migration that will add the proper columns to your class's table.
