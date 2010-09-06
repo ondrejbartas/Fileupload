@@ -1,6 +1,6 @@
 =Fileupload
 Tato služba umožňuje nahrávání a správu souborů (obrázků) na jiném serveru než vám běží RUBY aplikace.	
-http://fileserve.bartas.cz
+http://fileserver.bartas.cz
 
 ==Použití
 
@@ -14,7 +14,7 @@ Rovnou vám to vypíše hlášku, že se config file nakopíroval, ale má defau
 
 ===Stáhněte si config file a uložte co do app/config/ (jako database.yml etc.)
 
-na http://fileserve.bartas.cz
+na http://fileserver.bartas.cz
 	
 ===Přidejte nastavení do vašeho modelu
 	
