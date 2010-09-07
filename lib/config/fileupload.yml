@@ -1,9 +1,9 @@
 development:
-    server_address: http://127.0.0.1:3000/
+    server_address: http://fileserver.bartas.cz
     private_key: 16ef2baf7f1c937e1ffdb128a9df8a8a936517f8
     public_key: 5e710b02c67b51a
 test:
-    server_address: http://127.0.0.1:3000/
+    server_address: http://fileserver.bartas.cz
     private_key: 16ef2baf7f1c937e1ffdb128a9df8a8a936517f8
     public_key: 5e710b02c67b51a
 
