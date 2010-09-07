@@ -21,7 +21,8 @@ na http://fileserver.bartas.cz
   #pro obrázek - při nahrání nového se starý přepíše
   has_uploaded_file :avatar, { :type=> "images",
                                :templates => { 
-                                     :small => { :size => "100x100", :resize_mode => "fill" }
+                                     :small => { :size => "100x100", :resize_mode => "fill" },
+									 :big => { :size => "250x300", :resize_mode => "fit" }
                                   }
                              }
 
@@ -98,5 +99,3 @@ učiňte tak jednoduše ve vašem modelu a pak:
 
 a dostanete výpis ID u kterých se reprocess provedl
 !!!Pozor: je to náročný process na serveru i klientovy, takže ho dělejte jen v nejnutnějších připadech
-
-
