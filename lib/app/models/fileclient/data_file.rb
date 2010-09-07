@@ -9,8 +9,7 @@ module Fileclient
         :templates => {}
       }
     end
-    
-    
+     
     attr_reader :name, :instance
     def initialize(name, instance, options = {}, count = 0) #from application CLASS
       @client = Client.new()      
@@ -55,8 +54,13 @@ module Fileclient
       end
       
     end    
+    
     def is_image?
       @type == "images"
+    end
+
+    def get_size
+      @size
     end
 
     def height
@@ -69,6 +73,11 @@ module Fileclient
     def get_filename_current
       @filename_current
     end
+
+    def get_filename_original
+      @filename_original
+    end
+
     def delete
       @queued_for_delete << @filename_current
       flush_deletes

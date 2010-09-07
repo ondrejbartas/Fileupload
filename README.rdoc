@@ -99,3 +99,34 @@ učiňte tak jednoduše ve vašem modelu a pak:
 
 a dostanete výpis ID u kterých se reprocess provedl
 !!!Pozor: je to náročný process na serveru i klientovy, takže ho dělejte jen v nejnutnějších připadech
+
+=Možnosti které vám umožňuje DataFile:
+
+.is_image? #BOOL true pokud je image
+
+.get_size #INTEGER velikost v B
+
+.height #INTEGER výšku obrázku
+
+.width #INTEGER šířku obrázku
+
+.get_filename_current #STRING aktuální jméno souboru
+
+.get_filename_original #STRING originální jméno souboru
+
+.delete #provede smazání souboru
+
+.get_url #vrátí cestu k souboru (http://fileserver.bartas.cz/files/public_key/domain_key/id/soubor.ext) pokud soubor neexistuje tak vrátí nil 
+
+.thumb_url(name) #vrátí cestu k šabloně, pokud šablona neexistuje vrací text: "this_is_not_style"
+
+.thumb(name) #vrací vygenerovanou šablonu
+
+==Možnosti vygenerované šablony:
+.get_size #INTEGER velikost v B
+
+.height #INTEGER výšku obrázku
+
+.width #INTEGER šířku obrázku
+
+.get_url #vrátí cestu k souboru (http://fileserver.bartas.cz/files/public_key/domain_key/id/soubor.ext) pokud soubor neexistuje tak vrátí nil 

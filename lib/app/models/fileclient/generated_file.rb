@@ -10,6 +10,17 @@ module Fileclient
         @server_address = server_address
     end
 
+    def get_size
+      @size
+    end
+
+    def height
+      @height.to_i
+    end
+    def width
+      @width.to_i
+    end
+
 
     def get_url
       @server_address+@url
