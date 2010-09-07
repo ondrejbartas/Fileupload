@@ -1,5 +1,5 @@
 =Fileupload
-Tato služba umožňuje nahrávání a správu souborů (obrázků) na jiném serveru než vám běží RUBY aplikace.	
+Tato služba umožňuje nahrávání a správu souborů (obrázků) na jiném serveru než vám běží RUBY aplikace.  
 http://fileserver.bartas.cz
 
 ==Použití
@@ -8,93 +8,93 @@ Zaregistujete se a přidejte novou doménu (nejlépe tak jak se bude jmenovat v�
 
 
 ===Install plugin
-	script/plugin install git://github.com/ondrejbartas/Fileupload.git
+  script/plugin install git://github.com/ondrejbartas/Fileupload.git
 
 Rovnou vám to vypíše hlášku, že se config file nakopíroval, ale má defaultní hodnoty, které vám nebudou fungovat!
 
 ===Stáhněte si config file a uložte co do app/config/ (jako database.yml etc.)
 
 na http://fileserver.bartas.cz
-	
+  
 ===Přidejte nastavení do vašeho modelu
-	
-	#pro obrázek - při nahrání nového se starý přepíše
-	has_uploaded_file :avatar, { :type=> "images",
+  
+  #pro obrázek - při nahrání nového se starý přepíše
+  has_uploaded_file :avatar, { :type=> "images",
                                :templates => { 
                                      :small => { :size => "100x100", :resize_mode => "fill" }
                                   }
                              }
 
-	#pro více obrázeků (fotogalerie etc.) - pluralizace :-) - v té chvíli vám umožní nahrát více jak jeden obrázek
-	has_uploaded_file :photos, { :type=> "images",
+  #pro více obrázeků (fotogalerie etc.) - pluralizace :-) - v té chvíli vám umožní nahrát více jak jeden obrázek
+  has_uploaded_file :photos, { :type=> "images",
                                :templates => { 
                                      :small => { :size => "100x100", :resize_mode => "fill" }
                                   }
                              }
-	#pro datové soubory 
-	has_uploaded_file :datafile, { :type=> "data"}
+  #pro datové soubory 
+  has_uploaded_file :datafile, { :type=> "data"}
 
 a pak vytvořte migraci
 
-	script/generate fileupload Class avatar (photos datafile ...)
-	rake db:migrate
+  script/generate fileupload Class avatar (photos datafile ...)
+  rake db:migrate
 
 === Vašeho CONTROLLERu se nic nedotkne a ve formulari VIEWS
 
-	&lt;% form_for @user, :html => { :multipart => true } do |form| %&gt;
-  		&lt;%= fileuploads_input form, :avatar %&gt;
-	&lt;% end %&gt;
+  <% form_for @user, :html => { :multipart => true } do |form| %>
+      <%= fileuploads_input form, :avatar %>
+  <% end %>
 
 Ten vám automaticky generuje podle typu (plural, singular), jestli nahráváte jeden či více souborů.
 Taky vám umožňuje mazání, takže pokud je objekt již vytvořen, zobrazuje vám nahrané soubory - u nich je check_box který po zaškrtnutí a uložení úprav objektu smaže danou položku
 
 ===Jak se dostat k nahraným datům?
 
-	if @user.avatar?
-	  image_tag @user.avatar.get_url
-	  image_tag @user.avatar.thumb_url("small")
-	  image_tag @user.avatar.thumb_url("big")
-	end  
-	if @user.photos?
-	  @user.photos.each do |photo| %>
-	    image_tag photo.thumb_url("small")
-	  end 
-	end  
-	if @user.datafile?
-	  link_to @user.avatar.get_url
-	end  
+  if @user.avatar?
+    image_tag @user.avatar.get_url
+    image_tag @user.avatar.thumb_url("small")
+    image_tag @user.avatar.thumb_url("big")
+  end  
+  if @user.photos?
+    @user.photos.each do |photo| %>
+      image_tag photo.thumb_url("small")
+    end 
+  end  
+  if @user.datafile?
+    link_to @user.avatar.get_url
+  end  
 
 
 ===Co se dá všechno nastavit v šablonách
 
-	has_uploaded_file :photos,  
-	  { :type=> "images", 			#typ zda-li ["data", "images"]
-	    :rename => true, 			#prejmenovani true - prejmenovava prijate soubory dle :base_filename
-	    :base_filename => "ahoj",		#jak se mají jmenovat soubory "ahoj_0001.jpg" etc.
-	    :templates => { 			#seznam šablon
-	       :maly => {			#název šablony
-	         :size => "150x150", 		#velikost výstupního obrázku
-	         :name_prefix => "maly",	#prefix k názvu souboru "ahoj_0001_maly.jpg"
-	         :resize_smaller => true,	#pokud je vstupní obrázek menší než šablona, tak zvětší do rozměrů
-	         :resize_mode => "fill"		#["fit","fill"]
-				#fit - obrázek se zmenší tak aby se vešel do rozměrů
-				#fill - obrázek se zmenší a ořízne tak aby vyplnil celou plochu rozměrů
-	       },
-	       :velky => { 			#další šablona
-	         :size => "100x200", 
-	         :resize_smaller => true,
-	         :resize_mode => "fit"
-	       }
-	    }
-	 }
+  has_uploaded_file :photos,  
+    { :type=> "images",       #typ zda-li ["data", "images"]
+      :rename => true,       #prejmenovani true - prejmenovava prijate soubory dle :base_filename
+      :base_filename => "ahoj",    #jak se mají jmenovat soubory "ahoj_0001.jpg" etc.
+      :templates => {       #seznam šablon
+         :maly => {      #název šablony
+           :size => "150x150",     #velikost výstupního obrázku
+           :name_prefix => "maly",  #prefix k názvu souboru "ahoj_0001_maly.jpg"
+           :resize_smaller => true,  #pokud je vstupní obrázek menší než šablona, tak zvětší do rozměrů
+           :resize_mode => "fill"    #["fit","fill"]
+        #fit - obrázek se zmenší tak aby se vešel do rozměrů
+        #fill - obrázek se zmenší a ořízne tak aby vyplnil celou plochu rozměrů
+         },
+         :velky => {       #další šablona
+           :size => "100x200", 
+           :resize_smaller => true,
+           :resize_mode => "fit"
+         }
+      }
+   }
 
 ===Pokud zjistíte, že potřebujete změnit vzhled a nastavení šablon
 
 učiňte tak jednoduše ve vašem modelu a pak:
 
-	#do promenne CLASS dejte název vašeho modelu
-	#důležité je vyplnit i RAILS_ENV ve kterém reprocess chcete provést
-	rake fileupload:refresh CLASS=User RAILS_ENV=development
+  #do promenne CLASS dejte název vašeho modelu
+  #důležité je vyplnit i RAILS_ENV ve kterém reprocess chcete provést
+  rake fileupload:refresh CLASS=User RAILS_ENV=development
 
 a dostanete výpis ID u kterých se reprocess provedl
 !!!Pozor: je to náročný process na serveru i klientovy, takže ho dělejte jen v nejnutnějších připadech
