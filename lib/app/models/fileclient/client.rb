@@ -19,7 +19,7 @@ module Fileclient
     end
 
     def delete_file(model_name, instance, filename)
-      uri = URI.parse("#{@server_address}/clients/delete_file_for_model?filename=#{filename}&private_key=#{@private_key}&class_name=#{instance.class.name}&domain_model_name=#{model_name}&received_id=#{instance.id.to_s}")
+      uri = URI.parse("#{@server_address}/clients/delete_file_for_model?filename=#{URI.escape(filename)}&private_key=#{@private_key}&class_name=#{instance.class.name}&domain_model_name=#{model_name}&received_id=#{instance.id.to_s}")
       
 #      puts "--------------------------------"
 #      puts "#{@server_address}/clients/delete_file_for_model?filename=#{filename}&private_key=#{@private_key}&domain_model_name=#{model_name}&received_id=#{instance.id.to_s}"
