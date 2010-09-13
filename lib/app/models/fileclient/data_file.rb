@@ -77,6 +77,11 @@ module Fileclient
     def get_filename_original
       @filename_original
     end
+    
+    def get_movie
+      output = @client.get_movie_on_update(uploaded_file,@model_name,@instance,@options)          
+      instance_write("upload", output.body)
+    end
 
     def delete
       @queued_for_delete << @filename_current

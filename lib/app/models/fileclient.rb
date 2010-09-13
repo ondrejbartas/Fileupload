@@ -14,6 +14,7 @@ module Fileclient
         write_inheritable_attribute(:fileupload_definitions, {}) if fileupload_definitions.nil?
         fileupload_definitions[name] = options
         attr_accessor :"#{name}_delete"
+        before_save :get_movie
         after_save :save_uploaded_files
         after_save :delete_uploaded_files
         before_destroy :destroy_uploaded_files
@@ -97,10 +98,10 @@ module Fileclient
       end
 
       def save_uploaded_files
-        each_fileupload_old do |name, fileupload|
-            fileupload.send(:flush_deletes)
-            fileupload.send(:save)
-        end
+        #each_fileupload_old do |name, fileupload|
+        #    fileupload.send(:flush_deletes)
+        #    fileupload.send(:save)
+        #end
 
         each_fileupload do |name, fileupload|
           if !fileupload.nil?
@@ -141,6 +142,17 @@ module Fileclient
         end
       end
 
+      def get_movie
+         self.class.fileupload_definitions.each do |name, definition|
+           if definition[:type] == "movie"
+              puts "vytvarim objekt"
+              DataFile.new(name, self, self.class.fileupload_definitions[name]).get_movie
+              puts "ted by mel objekt mit nactene video"
+              puts instance_read(name,"upload")
+           end
+         end 
+      end
+      
       def destroy_uploaded_files
         each_fileupload do |name, fileupload|
           if !fileupload.nil?
