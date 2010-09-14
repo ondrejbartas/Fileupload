@@ -59,6 +59,14 @@ module Fileclient
       @type == "images"
     end
 
+    def is_movie?
+      @type == "movie"
+    end
+
+    def get_link_to_upload_movie
+      @client.get_link_to_upload_movie(@model_name,@instance,@options)
+    end
+    
     def get_size
       @size
     end
@@ -79,7 +87,7 @@ module Fileclient
     end
     
     def get_movie
-      output = @client.get_movie_on_update(uploaded_file,@model_name,@instance,@options)          
+      output = @client.get_movie_on_update(@model_name,@instance)          
       instance_write("upload", output.body)
     end
 

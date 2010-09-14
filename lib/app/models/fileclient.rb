@@ -142,6 +142,25 @@ module Fileclient
         end
       end
 
+      def is_movie?(name_in)
+        self.class.fileupload_definitions.each do |name, definition|
+          if name_in == name &&  definition[:type] == "movie"
+            return true
+          end
+        end 
+        return false
+      end
+      
+      def get_link_to_upload_movie(name_in)
+        link = ""
+        self.class.fileupload_definitions.each do |name, definition|
+          if name_in == name && definition[:type] == "movie"
+             link = DataFile.new(name, self, self.class.fileupload_definitions[name]).get_link_to_upload_movie
+          end
+        end 
+        link
+      end
+
       def get_movie
          self.class.fileupload_definitions.each do |name, definition|
            if definition[:type] == "movie"
@@ -168,8 +187,7 @@ module Fileclient
           end
         end
       end
-    end
- 
+    end 
   
 end
 

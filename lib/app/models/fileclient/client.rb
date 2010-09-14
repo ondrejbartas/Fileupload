@@ -10,14 +10,24 @@ module Fileclient
    end
 
    def get_movie_on_update(model_name, instance)
-     uri = URI.parse(@server_address+"/clients/get_movie?private_key="+@private_key+"&class_name=#{instance.class.name}&domain_model_name="+model_name+"&received_id="+instance.id.to_s)
+     uri = URI.parse(@server_address+"/clients/get_movie?private_key="+@private_key+"&class_name=#{instance.class.name}&domain_model_name=#{model_name}&received_id="+instance.id.to_s)
+     puts "posilam dotaz:"+@server_address+"/clients/get_movie?private_key="+@private_key+"&class_name=#{instance.class.name}&domain_model_name=#{model_name}&received_id="+instance.id.to_s
      http = Net::HTTP.new(uri.host, uri.port)
      return http.request(Net::HTTP::Get.new(uri.request_uri))
    end
 
+   def get_link_to_upload_movie(model_name, instance, options)
+     if model_name.to_s.pluralize.singularize == model_name.to_s #only one file
+       count = 1
+     else  
+       count = 0
+     end
+     return @server_address+"/clients/upload_form?private_key="+@private_key+"&class_name=#{instance.class.name}&domain_model_name=#{model_name}&received_id="+instance.id.to_s+"&direct=true&options=#{options.to_json}&count=#{count}"
+   end
+
 
    def get_files_for_model(model_name, instance)
-     uri = URI.parse(@server_address+"/clients/get_files_for_model?private_key="+@private_key+"&class_name=#{instance.class.name}&domain_model_name="+model_name)
+     uri = URI.parse(@server_address+"/clients/get_files_for_model?private_key="+@private_key+"&class_name=#{instance.class.name}&domain_model_name=#{model_name}")
      http = Net::HTTP.new(uri.host, uri.port)
      response = http.request(Net::HTTP::Get.new(uri.request_uri))
      model_file = ModelFile.new(JSON.parse(response.body), @server_address)
