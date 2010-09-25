@@ -130,7 +130,7 @@ module Fileclient
 
         return nil if uploaded_file.nil?
       
-        #if object is now saved, upload file after save and save agin for data update
+        #if object is now saved, upload file after save and save again for data update
         if @instance.id.nil? 
           @queued_for_write << uploaded_file
         else
@@ -229,7 +229,7 @@ module Fileclient
           instance_write("upload", output.body)
         end
         @queued_for_write = []
-        @instance.save
+        save
       end
       true
     end

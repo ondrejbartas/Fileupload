@@ -165,9 +165,12 @@ module Fileclient
          self.class.fileupload_definitions.each do |name, definition|
            if definition[:type] == "movie"
               puts "vytvarim objekt"
-              DataFile.new(name, self, self.class.fileupload_definitions[name]).get_movie
+              begin
+                DataFile.new(name, self, self.class.fileupload_definitions[name]).get_movie
+                puts instance_read(name,"upload")
+              rescue
+              end
               puts "ted by mel objekt mit nactene video"
-              puts instance_read(name,"upload")
            end
          end 
       end
