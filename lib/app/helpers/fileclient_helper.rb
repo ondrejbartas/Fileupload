@@ -8,11 +8,17 @@ module FileclientHelper
 			out << "<br />"
 			out << "<a href='#{form.object.get_link_to_upload_movie(name)}' target='_blank'> #{t(:for_uploading_movie_click_to_link)}</a>"
 			if form.object.get_existence_of_file(name)
-			  data_file = form.object.get_files_for(name)
-        out << t(:delete)
-        out << check_box_tag("#{form.object.class.name.downcase}[#{name}_delete]", true)
-        out << " : "+data_file.get_filename_current
-      end
+        out << "<ul class='uploaded_files'>"
+          data_file = form.object.get_files_for(name)
+      			out << "<li class='"+cycle('odd','even')+"'>"
+      			out << t(:delete)+" > "
+            out << data_file.get_filename_current+":"
+            out << check_box_tag("#{form.object.class.name.downcase}[#{name}_delete]", true)
+      			out << "</li>"
+        out << "</ul>"
+  			out << "<br />"
+
+			end
 			out << "<br />"
 		elsif  form.object.new_record? && form.object.is_movie?(name)
 			out << "<br />"
@@ -24,18 +30,25 @@ module FileclientHelper
   			out << "<br />"
       
         if !form.object.new_record? && form.object.get_existence_of_file(name)
-          out << t(:delete)
-          out << check_box_tag("#{form.object.class.name.downcase}[#{name}_delete]", true)
+
           data_file = form.object.get_files_for(name)
+          out << "<ul class='uploaded_files'>"
+    			out << "<li class='"+cycle('odd','even')+"'>"
+    			out << t(:delete)+" > "
+          out << data_file.get_filename_current+" : "
           if data_file.is_image?
             if data_file.width > data_file.height
               aspect = data_file.width.to_f/100.0
             else
               aspect = data_file.height.to_f/100.0
             end
-            out << image_tag(data_file.get_url, :width=>data_file.width.to_f/aspect, :height=>data_file.height.to_f/aspect)
-          end
+          out << image_tag(data_file.get_url, :width=>data_file.width.to_f/aspect, :height=>data_file.height.to_f/aspect)
+          out << check_box_tag("#{form.object.class.name.downcase}[#{name}_delete]", true)
+    			out << "</li>"
+          out << "</ul>"
     			out << "<br />"
+
+          end
         end
       else
     
@@ -46,12 +59,11 @@ module FileclientHelper
     		  end
         end
         if !form.object.new_record? && form.object.get_existence_of_file(name)
-          out << "<ul>"
+          out << "<ul class='uploaded_files'>"
             form.object.get_files_for(name).each do |data_file|
-        			out << "<li>"
-        			out << t(:delete)
-              out << check_box_tag("#{form.object.class.name.downcase}[#{name}_delete][#{data_file.get_filename_current}]", true)
-              out << data_file.get_filename_current+":"
+        			out << "<li class='"+cycle('odd','even')+"'>"
+        			out << t(:delete)+" > "
+              out << data_file.get_filename_current+" : "
               if data_file.is_image?
                 if data_file.width > data_file.height
                   aspect = data_file.width.to_f/100.0
@@ -59,6 +71,7 @@ module FileclientHelper
                   aspect = data_file.height.to_f/100.0
                 end
                 out << image_tag(data_file.get_url, :width=>data_file.width.to_f/aspect, :height=>data_file.height.to_f/aspect)
+                out << check_box_tag("#{form.object.class.name.downcase}[#{name}_delete][#{data_file.get_filename_current}]", true)
               end
         			out << "</li>"
             end

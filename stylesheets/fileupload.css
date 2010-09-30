@@ -1,0 +1,13 @@
+.uploaded_files li{
+	vertical-align:top;
+	height:60px;
+	display:block;
+}
+.uploaded_files li img {
+	vertical-align:top;
+	margin-right:10px;
+}
+.uploaded_files .odd {
+}
+.uploaded_files .even {
+}
